@@ -1,0 +1,25 @@
+[tool.poetry]
+name = "interruptible-repl"
+version = "0.1.0"
+description = ""
+authors = ["nahco314 <nahco3_ta@yahoo.co.jp>"]
+readme = "README.md"
+packages = [{include = "interruptible_repl"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+
+[tool.poetry.group.dev.dependencies]
+isort = "^5.10.1"
+black = "^22.10.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+line-length = 88
+
+[tool.isort]
+line_length = 88
+force_single_line = true
