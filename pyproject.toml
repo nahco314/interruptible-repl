@@ -6,6 +6,9 @@ authors = ["nahco314 <nahco3_ta@yahoo.co.jp>"]
 readme = "README.md"
 packages = [{include = "interruptible_repl"}]
 
+[tool.poetry.scripts]
+repl = "interruptible_repl.main:main"
+
 [tool.poetry.dependencies]
 python = "^3.11"
 
