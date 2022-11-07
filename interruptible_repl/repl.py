@@ -4,6 +4,7 @@ import sys
 from code import InteractiveConsole
 from pathlib import Path
 from typing import BinaryIO
+from typing import Optional
 
 import dill
 
@@ -44,7 +45,12 @@ class REPL(InteractiveConsole):
             exit(1)
 
 
-def run(repl_path: Path, code: str, *, not_exist_ok=True) -> None:
+def run(
+    repl_path: Path, code: str, *, output_path: Optional[Path] = None, not_exist_ok=True
+) -> None:
+    if output_path is None:
+        output_path = repl_path
+
     if not repl_path.exists():
         if not_exist_ok:
             repl_path.touch()
@@ -57,5 +63,5 @@ def run(repl_path: Path, code: str, *, not_exist_ok=True) -> None:
 
     repl.runsource(code + "\n")
 
-    with repl_path.open("wb") as repl_file:
+    with output_path.open("wb") as repl_file:
         repl.dump(repl_file)
