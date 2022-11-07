@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import pickle
+import sys
 from code import InteractiveConsole
 from pathlib import Path
 from typing import BinaryIO
@@ -14,6 +15,32 @@ class REPL(InteractiveConsole):
 
     def dump(self, file: BinaryIO, **kwargs) -> None:
         pickle.dump(self, file, **kwargs)
+
+    def runsource(self, source: str, filename="<input>", symbol="single"):
+        code = None
+        try:
+            code = self.compile(source, filename, symbol)
+        except (OverflowError, SyntaxError, ValueError):
+            # Case 1
+            self.showsyntaxerror(filename)
+            exit(1)
+
+        if code is None:
+            # Case 2
+            return True
+
+        # Case 3
+        self.runcode(code)
+        return False
+
+    def runcode(self, code):
+        try:
+            exec(code, self.locals)
+        except SystemExit:
+            raise
+        except Exception as e:
+            self.showtraceback()
+            exit(1)
 
 
 def run(repl_path: Path, code: str, *, not_exist_ok=True) -> None:
