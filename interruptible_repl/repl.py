@@ -1,20 +1,21 @@
 from __future__ import annotations
 
-import pickle
 import sys
 from code import InteractiveConsole
 from pathlib import Path
 from typing import BinaryIO
 
+import dill
+
 
 class REPL(InteractiveConsole):
     @classmethod
     def load(cls, file: BinaryIO, **kwargs) -> REPL:
-        repl = pickle.load(file, **kwargs)
+        repl = dill.load(file, **kwargs)
         return repl
 
     def dump(self, file: BinaryIO, **kwargs) -> None:
-        pickle.dump(self, file, **kwargs)
+        dill.dump(self, file, **kwargs)
 
     def runsource(self, source: str, filename="<input>", symbol="single"):
         code = None
